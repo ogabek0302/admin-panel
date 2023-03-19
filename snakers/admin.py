@@ -7,7 +7,7 @@
 #     list_filter = ['price', 'category']
 
 # admin.site.register(Snakers, SnakersAdmin)
-
+    
 
 # class CategoryAdmin(admin.ModelAdmin):
 #     list_display = ['name','created_at', 'updated_at']
@@ -21,7 +21,7 @@
 # admin.site.register(Category, CategoryAdmin)
 
 from django.contrib import admin
-from .models import Category, Brand, Snakers
+from .models import Category, Brand, Snakers, File
 
 admin.site.site_header = 'Sneakers.uz'      # Header text
 admin.site.index_title = 'Administration'    # Title on index page
@@ -51,3 +51,13 @@ class BrandAdmin(admin.ModelAdmin):
     search_fields = ['name']
     list_filter = ['created_at']
 admin.site.register(Brand, BrandAdmin)
+
+class FileAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'get_image', 'date_created', 'date_updated')
+    list_filter = ('date_created', 'date_updated')
+    
+    def get_image(self, obj):
+        return obj.image.url if obj.image else None
+    get_image.short_description = 'Image'
+
+admin.site.register(File, FileAdmin)
